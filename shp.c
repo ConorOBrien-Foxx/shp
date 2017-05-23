@@ -75,10 +75,11 @@ int main(int argc, char** argv){
         }
         else if(cur == 'p')
             printf("%i", A);
-        else if(cur == '<')
+        else if(cur == '<'){
             A = memory[memPtr];
             if(memPtr > maxPtr)
                 maxPtr = memPtr;
+        }
         else if(cur == '>')
             memory[memPtr] = A;
             if(memPtr > maxPtr)
