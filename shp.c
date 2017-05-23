@@ -41,6 +41,8 @@ char* readFile(char* name){
 )    if the accumulator is not zero, rewind to the previous matching `(`
 p    print the numeric value of the accumulator
 `    show debug information
+!    set accumulator to 1 if zero; otherwise, 0
+@    exit with exit code equal to the accumulator
 */
 
 int main(int argc, char** argv){
@@ -49,7 +51,7 @@ int main(int argc, char** argv){
     int deltaValue = 1;
     int* memory = malloc(sizeof(int) * DEFAULT_MEMORY_SIZE);
     int memPtr = 0;
-    int maxPtr = 0;
+    int maxPtr = -1;
     
     char* file = readFile(argv[1]);
     int i;
@@ -58,8 +60,11 @@ int main(int argc, char** argv){
         char cur = file[i];
         if(cur == ';')
             A += deltaValue;
-        else if(cur == ':')
+        else if(cur == ':'){
             memPtr += deltaValue;
+            if(memPtr > maxPtr)
+                maxPtr = memPtr;
+        }
         else if(cur == '+')
             A += B * deltaValue;
         else if(cur == '-')
@@ -72,8 +77,12 @@ int main(int argc, char** argv){
             printf("%i", A);
         else if(cur == '<')
             A = memory[memPtr];
+            if(memPtr > maxPtr)
+                maxPtr = memPtr;
         else if(cur == '>')
             memory[memPtr] = A;
+            if(memPtr > maxPtr)
+                maxPtr = memPtr;
         else if(cur == '~'){
             A ^= B;
             B ^= A;
@@ -81,6 +90,8 @@ int main(int argc, char** argv){
         }
         else if(cur == '.'){
             memPtr = A;
+            if(memPtr > maxPtr)
+                maxPtr = memPtr;
         }
         else if(cur == '*')
             A = getchar();
@@ -123,9 +134,12 @@ int main(int argc, char** argv){
             }
             printf(" }\n");
         }
-        
-        if(memPtr > maxPtr)
-            maxPtr = memPtr;
+        else if(cur == '!'){
+            A = A == 0 ? 1 : 0;
+        }
+        else if(cur == '@'){
+            exit(A);
+        }
     }
     
     free(memory);

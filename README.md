@@ -25,6 +25,7 @@ Without further ado:
     )    if the accumulator is not zero, rewind to the previous matching `(`
     p    print the numeric value of the accumulator
     `    show debug information
+    !    set accumulator to 1 if zero; otherwise, 0
 
 ## Proof of Turing completeness
 
