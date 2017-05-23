@@ -80,10 +80,11 @@ int main(int argc, char** argv){
             if(memPtr > maxPtr)
                 maxPtr = memPtr;
         }
-        else if(cur == '>')
+        else if(cur == '>'){
             memory[memPtr] = A;
             if(memPtr > maxPtr)
                 maxPtr = memPtr;
+        }
         else if(cur == '~'){
             A ^= B;
             B ^= A;
