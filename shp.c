@@ -58,45 +58,61 @@ int main(int argc, char** argv){
     off_t len = strlen(file);
     for(i = 0; i < len; i++){
         char cur = file[i];
-        if(cur == ';')
+        if(cur == ';'){
             A += deltaValue;
+        }
+        
         else if(cur == ':'){
             memPtr += deltaValue;
             if(memPtr > maxPtr)
                 maxPtr = memPtr;
         }
-        else if(cur == '+')
+        
+        else if(cur == '+'){
             A += B * deltaValue;
-        else if(cur == '-')
+        }
+        
+        else if(cur == '-'){
             deltaValue = -deltaValue;
+        }
+        
         else if(cur == '#'){
             putchar(A % 127);
             A = 0;
         }
-        else if(cur == 'p')
+        
+        else if(cur == 'p'){
             printf("%i", A);
+        }
+        
         else if(cur == '<'){
             A = memory[memPtr];
             if(memPtr > maxPtr)
                 maxPtr = memPtr;
         }
+        
         else if(cur == '>'){
             memory[memPtr] = A;
             if(memPtr > maxPtr)
                 maxPtr = memPtr;
         }
+        
         else if(cur == '~'){
             A ^= B;
             B ^= A;
             A ^= B;
         }
+        
         else if(cur == '.'){
             memPtr = A;
             if(memPtr > maxPtr)
                 maxPtr = memPtr;
         }
-        else if(cur == '*')
+        
+        else if(cur == '*'){
             A = getchar();
+        }
+        
         else if(cur == '('){
             if(A == 0){
                 int depth = 1;
@@ -111,6 +127,7 @@ int main(int argc, char** argv){
                 }
             }
         }
+        
         else if(cur == ')'){
             if(A != 0){
                 int depth = 1;
@@ -125,6 +142,7 @@ int main(int argc, char** argv){
                 }
             }
         }
+        
         else if(cur == '`'){
             printf("(%i, %i, %c)@%i", A, B, deltaValue == 1 ? '+' : '-', memPtr);
             // print memory
@@ -136,9 +154,11 @@ int main(int argc, char** argv){
             }
             printf(" }\n");
         }
+        
         else if(cur == '!'){
             A = A == 0 ? 1 : 0;
         }
+        
         else if(cur == '@'){
             exit(A);
         }
